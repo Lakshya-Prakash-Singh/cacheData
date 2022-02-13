@@ -2,6 +2,14 @@
  	APIs For Cache Data Handling. It's base URL is 
 	#Base URL => Protocol://host:port/api/1.0.0/cacheData/ (http://localhost:3000/api/1.0.0/cacheData/)
 
+# Init
+	Clone the repository by clone command
+		=> git clone https://github.com/Lakshya-Prakash-Singh/cacheData.git
+	Install all node dependencies
+		=> npm install
+	Run the app
+		=> npm start
+
 # Endpoints
 	GET => /getKeyData/:key (Key is required param)  --- To get key specefic data
 	GET => /getKeyData   --- To get all key data
