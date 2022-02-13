@@ -1,0 +1,26 @@
+
+2022-02-12T11:17:05.985Z ----- TypeError [ERR_INVALID_ARG_VALUE]: The argument 'ee' is invalid encoding. Received 'encoding'
+2022-02-12T11:28:29.784Z ----- undefined
+2022-02-12T11:29:36.416Z ----- [object Object]
+2022-02-12T11:29:59.932Z ----- {"acknowledged":true,"insertedId":"62079a37b14da303ab7396d0"}
+2022-02-12T11:31:31.631Z ----- {"acknowledged":true,"insertedId":"62079a93b14da303ab7396d1"}
+2022-02-12T16:49:07.265Z ----- ReferenceError: key is not defined
+2022-02-12T16:50:36.746Z ----- ReferenceError: validationError is not defined
+2022-02-12T16:56:22.280Z ----- ReferenceError: validationError is not defined
+2022-02-13T03:28:55.796Z ----- TypeError: globals._dbs.collection(...).updateMany(...).find is not a function
+2022-02-13T09:43:17.352Z ----- TypeError: globalsFunction.logValidationErrors is not a function
+2022-02-13T09:54:12.271Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d3f87dd96294955b1281","key":"hi","value":"hello hi bi bi","dateTime":"2022-02-13T09:53:02.504Z"},"ok":1}
+2022-02-13T09:56:36.638Z ----- {"lastErrorObject":{"n":1,"updatedExisting":false,"upserted":"6208d5d41ec6adc9841377bf"},"value":null,"ok":1}
+2022-02-13T09:59:23.587Z ----- {"lastErrorObject":{"n":1,"updatedExisting":false,"upserted":"6208d67b1ec6adc98413782e"},"value":null,"ok":1}
+2022-02-13T10:06:12.800Z ----- {"acknowledged":true,"deletedCount":0}
+2022-02-13T10:07:24.324Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d8011ec6adc984137924","key":"haixx","dateTime":"2022-02-13T10:06:19.378Z","value":"iure qui ipsum a elit"},"ok":1}
+2022-02-13T10:07:39.528Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d8011ec6adc984137924","key":"haixx","dateTime":"2022-02-13T10:07:24.322Z","value":"hello hi bi bi"},"ok":1}
+2022-02-13T10:07:45.257Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d8011ec6adc984137924","key":"haixx","dateTime":"2022-02-13T10:07:39.526Z","value":"hello hi bi bi"},"ok":1}
+2022-02-13T10:08:20.252Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d8011ec6adc984137924","key":"haixx","dateTime":"2022-02-13T10:08:12.385Z","value":"dolor repudiandae adipisicing odio iure"},"ok":1}
+2022-02-13T10:08:32.555Z ----- {"lastErrorObject":{"n":1,"updatedExisting":true},"value":{"_id":"6208d8011ec6adc984137924","key":"haixx","dateTime":"2022-02-13T10:08:20.250Z","value":"hello hi bi bi"},"ok":1}
+2022-02-13T10:09:09.388Z ----- {"acknowledged":true,"deletedCount":0}
+2022-02-13T10:15:54.014Z ----- {"acknowledged":true,"deletedCount":0}
+2022-02-13T10:16:32.750Z ----- {"lastErrorObject":{"n":0,"updatedExisting":false},"value":null,"ok":1}
+2022-02-13T10:17:19.693Z ----- {"acknowledged":true,"deletedCount":0}
+2022-02-13T10:17:51.335Z ----- {"acknowledged":true,"deletedCount":0}
+2022-02-13T10:51:09.274Z ----- MongoInvalidArgumentError: Collection name must be a String
