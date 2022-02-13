@@ -22,13 +22,13 @@ module.exports = {
                         if (err) throw err;  
                         if (insertResult.acknowledged) {
                             var _result = [{"key": req.params.key, "value": randomString,"dateTime": new Date()}];
-                            res.json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: _result});
+                            res.status(200).json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: _result});
                             globalsFunction.validateDataLimit();
                             return false;
                         }
                         else {
                             globalsFunction.logErrors(JSON.stringify(insertResult));
-                            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: "Error in inserting data to DBs."});
+                            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: "Error in inserting data to DBs."});
                             globalsFunction.validateDataLimit();
                             return false;
                         }
@@ -41,7 +41,7 @@ module.exports = {
                     for (var i = 0; i < result.length; i++) {
                         globalsFunction.logHitKeys(result[i].key)
                         var difference = (new Date().getTime()) - (result[i].dateTime);
-                        if (difference > 10000) {
+                        if (difference > parseInt(process.env.cacheDataTTL)) {
                             _result[i] = result[i];
                             _result[i].value = globalsFunction.getRandomText();
                             _result[i].dateTime = new Date();                        
@@ -81,7 +81,7 @@ module.exports = {
                     }
                     
                     loop().then(() => {
-                        res.json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: _result});
+                        res.status(200).json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: _result});
                     })
 
                 } 
@@ -89,7 +89,7 @@ module.exports = {
         }
         catch (Error) {
             globalsFunction.logErrors(Error);
-            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
+            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
             return false;
         }
     },
@@ -98,7 +98,7 @@ module.exports = {
         try {
             const validationError = validationResult(req); 
             if (!validationError.isEmpty()) { 
-                res.json({status: globals.responses.errorStatus, message: validationError.errors[0].msg, data: globals.responses.commonBlankData, errorMessage: validationError.errors[0].msg});
+                res.status(400).json({status: globals.responses.errorStatus, message: validationError.errors[0].msg, data: globals.responses.commonBlankData, errorMessage: validationError.errors[0].msg});
                 return false;
             }
             else {
@@ -107,22 +107,22 @@ module.exports = {
                     if (err) throw err;
                     // console.log(updtResult);
                     if (updtResult.value) {
-                        res.json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: updtResult.value});
+                        res.status(200).json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: updtResult.value});
                     }
                     else if (updtResult.lastErrorObject.upserted) {
                         globalsFunction.validateDataLimit();
-                        res.json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: {"key": req.body.key, "value": req.body.value,"dateTime": dateTimeNow}});
+                        res.status(200).json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: {"key": req.body.key, "value": req.body.value,"dateTime": dateTimeNow}});
                     }
                     else {
                         globalsFunction.logErrors(JSON.stringify(updtResult));
-                        res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData});
+                        res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData});
                     }
                 });
             }
         }
         catch (Error) {
             globalsFunction.logErrors(Error);
-            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
+            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
             return false;
         }
     },
@@ -131,25 +131,25 @@ module.exports = {
         try {
             const validationError = validationResult(req); 
             if (!validationError.isEmpty()) { 
-                res.json({status: globals.responses.errorStatus, message: validationError.errors[0].msg, data: globals.responses.commonBlankData, errorMessage: validationError.errors[0].msg});
+                res.status(400).json({status: globals.responses.errorStatus, message: validationError.errors[0].msg, data: globals.responses.commonBlankData, errorMessage: validationError.errors[0].msg});
                 return false;
             }
             else {
                 globals._dbs.collection(process.env.dbsCacheDataCollection).findOneAndUpdate({"key": req.body.key}, {$set: {"key": req.body.key, "value": req.body.value,"dateTime": new Date()}}, { returnNewDocument: true }, function(err, updtResult) {  
                     if (err) throw err;
                     if (updtResult.value) {
-                        res.json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: updtResult.value});
+                        res.status(200).json({status: globals.responses.successStatus, message: globals.responses.commonSuccessMessage, data: updtResult.value});
                     }
                     else {
                         globalsFunction.logErrors(JSON.stringify(updtResult));
-                        res.json({status: globals.responses.errorStatus, message: "Key Not Found!", data: globals.responses.commonBlankData});
+                        res.status(400).json({status: globals.responses.errorStatus, message: "Key Not Found!", data: globals.responses.commonBlankData});
                     }
                 });
             }
         }
         catch (Error) {
             globalsFunction.logErrors(Error);
-            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
+            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
             return false;
         }
     },
@@ -159,17 +159,17 @@ module.exports = {
             globals._dbs.collection(process.env.dbsCacheDataCollection).deleteOne({"key": req.params.key}, function(err, dltResult) {  
                 if (err) throw err;
                 if (dltResult.deletedCount) {
-                    res.json({status: "Key data for '" + req.params.key  + "' is deleted successfully!", message: globals.responses.commonSuccessMessage, data: globals.responses.commonBlankData});
+                    res.status(200).json({status: "Key data for '" + req.params.key  + "' is deleted successfully!", message: globals.responses.commonSuccessMessage, data: globals.responses.commonBlankData});
                 }
                 else {
                     globalsFunction.logErrors(JSON.stringify(dltResult));
-                    res.json({status: globals.responses.errorStatus, message: "Key Not Found!", data: globals.responses.commonBlankData});
+                    res.status(400).json({status: globals.responses.errorStatus, message: "Key Not Found!", data: globals.responses.commonBlankData});
                 }
             });
         }
         catch (Error) {
             globalsFunction.logErrors(Error);
-            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
+            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
             return false;
         }
     },
@@ -179,17 +179,17 @@ module.exports = {
             globals._dbs.collection(process.env.dbsCacheDataCollection).deleteMany({}, function(err, dltResult) {  
                 if (err) throw err;
                 if (dltResult.deletedCount) {
-                    res.json({status: "All keys deleted successfully!", message: globals.responses.commonSuccessMessage, data: globals.responses.commonBlankData});
+                    res.status(200).json({status: "All keys deleted successfully!", message: globals.responses.commonSuccessMessage, data: globals.responses.commonBlankData});
                 }
                 else {
                     globalsFunction.logErrors(JSON.stringify(dltResult));
-                    res.json({status: globals.responses.errorStatus, message: "No Keys To Delete!", data: globals.responses.commonBlankData});
+                    res.status(400).json({status: globals.responses.errorStatus, message: "No Keys To Delete!", data: globals.responses.commonBlankData});
                 }
             });
         }
         catch (Error) {
             globalsFunction.logErrors(Error);
-            res.json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
+            res.status(500).json({status: globals.responses.errorStatus, message: globals.responses.commonErrorMessage, data: globals.responses.commonBlankData, errorMessage: Error.message.toString()});
             return false;
         }
     }

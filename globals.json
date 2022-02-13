@@ -6,7 +6,5 @@
         "commonErrorMessage": "An error occurred! Please try after sometime or contact to our support team.",
         "commonBlankData": []
     },
-    "profilePicDirectory": "./assets/images/ProfilePic/",
-    "defaultProfilePicURL": "default/default.svg",
     "_dbs" : null
 }
